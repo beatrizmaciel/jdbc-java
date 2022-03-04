@@ -7,7 +7,7 @@ public class TestaConexao {
 	public static void main(String[] args) throws SQLException {
 		
 		Connection connection = DriverManager
-				.getConnection("jdbc:mysql://localhost/Loja_Virtual?useTimezone=true&serverTimezone=UTC", "root", "9153*Mysql");
+				.getConnection("jdbc:mysql://localhost/Loja_Virtual?useTimezone=true&serverTimezone=UTC", "root", "555!Root");
 	
 	connection.close();
 	}
