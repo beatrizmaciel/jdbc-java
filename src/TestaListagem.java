@@ -1,7 +1,7 @@
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class TestaListagem {
 
@@ -11,9 +11,9 @@ public class TestaListagem {
 		Connection connection = connectionFactory.recuperarConexao();
 		
 		// \/ interface java.sql
-		Statement stm = connection.createStatement();
+		PreparedStatement stm = connection.prepareStatement("SELECT ID, NOME, DESCRICAO FROM PRODUTO");
 		// comando a partir da aplicação (retorna booleano):
-		stm.execute("SELECT ID, NOME, DESCRICAO FROM PRODUTO");
+		stm.execute();
 		
 		// \/ interface java.sql
 		ResultSet rst = stm.getResultSet();

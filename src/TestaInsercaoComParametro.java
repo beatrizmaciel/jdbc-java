@@ -14,7 +14,8 @@ public class TestaInsercaoComParametro {
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
 		
-		PreparedStatement stm = connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement stm = 
+				connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 		
 		stm.setString(1, nome); // (posicao, valor)
 		stm.setString(2, descricao);
@@ -31,5 +32,5 @@ public class TestaInsercaoComParametro {
 }
 
 /**
- * O PreparedStatement protege o banco de dados.
+ * O PreparedStatement protege o banco de dados, deixando o código menos vulnerável.
  */
