@@ -4,21 +4,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.management.RuntimeErrorException;
+
 public class TestaInsercaoComParametro {
 
 	public static void main(String[] args) throws SQLException {
-		
-		String nome = "Mouse";
-		String descricao = "Mouse sem fio";
-		
+
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
+		connection.setAutoCommit(false); // dessa forma, controlamos o momento do auto commit da aplicação
 		
 		PreparedStatement stm = 
 				connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 		
-		stm.setString(1, nome); // (posicao, valor)
+		adicionarVariavel("SmartTV", "45 polegadas", stm);
+		adicionarVariavel("Radio", "Radio de bateria", stm);
+	}
+	
+	private static void adicionarVariavel(String nome, String descricao, PreparedStatement stm) throws SQLException {
+		
+		stm.setString(1, nome);
 		stm.setString(2, descricao);
+		
+		/*if(nome.equals("Radio")) {
+			throw new RuntimeException("Não foi possível adicionar o produto");
+		}*/
 		
 		stm.execute();
 		
@@ -28,6 +38,7 @@ public class TestaInsercaoComParametro {
 			Integer id = rs.getInt(1);
 			System.out.println("O id criado foi: " + id);
 		}
+		rs.close();	
 	}
 }
 
