@@ -12,13 +12,25 @@ public class TestaInsercaoComParametro {
 
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
+		
 		connection.setAutoCommit(false); // dessa forma, controlamos o momento do auto commit da aplicação
 		
-		PreparedStatement stm = 
-				connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+		try {
+			PreparedStatement stm = 
+					connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+			
+			adicionarVariavel("SmartTV", "45 polegadas", stm);
+			adicionarVariavel("Radio", "Radio de bateria", stm);
 		
-		adicionarVariavel("SmartTV", "45 polegadas", stm);
-		adicionarVariavel("Radio", "Radio de bateria", stm);
+			connection.commit();
+			
+			stm.close();
+			connection.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("ROLLBACK EXECUTADO");
+			connection.rollback();
+		}
 	}
 	
 	private static void adicionarVariavel(String nome, String descricao, PreparedStatement stm) throws SQLException {
@@ -26,9 +38,9 @@ public class TestaInsercaoComParametro {
 		stm.setString(1, nome);
 		stm.setString(2, descricao);
 		
-		/*if(nome.equals("Radio")) {
+		if(nome.equals("Radio")) {
 			throw new RuntimeException("Não foi possível adicionar o produto");
-		}*/
+		}
 		
 		stm.execute();
 		
@@ -44,4 +56,5 @@ public class TestaInsercaoComParametro {
 
 /**
  * O PreparedStatement protege o banco de dados, deixando o código menos vulnerável.
+ * O método commit() verifica as getGeneratedKeys e vai dar o commit na "transação"
  */
