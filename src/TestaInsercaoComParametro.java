@@ -16,7 +16,7 @@ public class TestaInsercaoComParametro {
 
 			connection.setAutoCommit(false); // dessa forma, controlamos o momento do auto commit da aplicação
 
-			// \/ abrimos o parênteses (+ chaves) para especificar um AutoClose
+			// \/ abrimos o parênteses (+ chaves) para especificar um AutoCloseable
 			try (PreparedStatement stm = connection.prepareStatement(
 					"INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);) {
 				adicionarVariavel("SmartTV", "45 polegadas", stm);
