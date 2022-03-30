@@ -58,9 +58,9 @@ public class ProdutoDAO {
 
 	public List<Produto> buscar(Categoria ct) throws SQLException {
 		List<Produto> produtos = new ArrayList<Produto>();
-		
+
 		System.out.println("Executando a query de buscar produto por categoria");
-		
+
 		String sql = "SELECT ID, NOME, DESCRICAO FROM PRODUTO WHERE CATEGORIA_ID = ?";
 		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
 			pstm.setInt(1, ct.getId());
